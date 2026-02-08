@@ -1,7 +1,7 @@
 import { Lock, Mail, UserRound } from "lucide-react";
 import { useState } from "react";
 const Auth = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   return (
     <div className="bg_image h-screen w-full flexing_style2">
       <div className="bg-gray-900 text-white w-full max-w-xl p-8 rounded-md shadow-md">
