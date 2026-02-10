@@ -18,8 +18,8 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of("http://localhost:5173"));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
-        config.setAllowedMethods(List.of("Authentication","Accept","Content-Type","X-Request-With","Origin"));
-        config.setExposedHeaders(List.of("Authorization",""));
+        config.setAllowedMethods(List.of("Authentication","Accept","Content-Type","X-Request-With","Origin","Cache-Control"));
+        config.setExposedHeaders(List.of("Authorization","Content-Disposition"));
         source.registerCorsConfiguration("/**",config);
         return source;
     }
