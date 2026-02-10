@@ -1,4 +1,7 @@
 package com.web.backend.exception;
 
-public class UnAuthorizedException {
+public class UnAuthorizedException extends RuntimeException{
+    public UnAuthorizedException(String message){
+        super(message);
+    }
 }
