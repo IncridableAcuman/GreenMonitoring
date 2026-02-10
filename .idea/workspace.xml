@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93d3efed-f683-43d8-81cd-10474799cced" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/TokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Auth.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="93d3efed-f683-43d8-81cd-10474799cced" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,6 +116,7 @@
       <workItem from="1770714822112" duration="1390000" />
       <workItem from="1770719970062" duration="448000" />
       <workItem from="1770735438751" duration="351000" />
+      <workItem from="1770738867131" duration="28000" />
     </task>
     <servers />
   </component>
