@@ -34,7 +34,7 @@ public class RedisService {
     }
     public String getToken(User user){
         if (user == null) return null;
-        Object token = getKey(user);
+        Object token = template.opsForValue().get(getKey(user));
         return token != null ? token.toString() : null;
     }
     public void removeTokenFromCache(User user){

@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93d3efed-f683-43d8-81cd-10474799cced" name="Changes" comment="" />
+    <list default="true" id="93d3efed-f683-43d8-81cd-10474799cced" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/MailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/PasswordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/RedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/backend/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ForgotPasswordModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ForgotPasswordModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,8 +48,8 @@
       <list>
         <option value="Enum" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -117,6 +128,9 @@
       <workItem from="1770719970062" duration="448000" />
       <workItem from="1770735438751" duration="351000" />
       <workItem from="1770738867131" duration="28000" />
+      <workItem from="1770800908130" duration="1014000" />
+      <workItem from="1770802486212" duration="1500000" />
+      <workItem from="1770816829223" duration="2235000" />
     </task>
     <servers />
   </component>
