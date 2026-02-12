@@ -9,7 +9,13 @@ const Auth = () => {
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   return (
     <>
-      <motion.div className="bg_image h-screen w-full flexing_style2">
+    {!forgotPasswordOpen && (
+            <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="bg_image h-screen w-full flexing_style2"
+      >
         <div className="bg-gray-950 text-white w-full max-w-xl p-8 rounded-md shadow-md">
           <h1 className="text-2xl md:text-3xl font-semibold py-4">
             {isAuth ? "Get Started Now" : "Create account"}
@@ -19,7 +25,13 @@ const Auth = () => {
             {/* firstname */}
             {!isAuth && (
               <>
-                <div className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md">
+                <motion.div
+                  whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+                  whileHover={{ borderColor: "#4b5563" }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+                 focus-within:bg-gray-700 transition duration-300"
+                >
                   <UserRound />
                   <input
                     type="text"
@@ -28,9 +40,15 @@ const Auth = () => {
                     placeholder="Firstname"
                     className="w-full outline-none bg-transparent"
                   />
-                </div>
+                </motion.div>
                 {/* lastname */}
-                <div className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md">
+                <motion.div
+                  whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+                  whileHover={{ borderColor: "#4b5563" }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+                 focus-within:bg-gray-700 transition duration-300"
+                >
                   <UserRound />
                   <input
                     type="text"
@@ -39,9 +57,15 @@ const Auth = () => {
                     placeholder="Lastname"
                     className="w-full outline-none bg-transparent"
                   />
-                </div>
+                </motion.div>
                 {/* username */}
-                <div className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md">
+                <motion.div
+                  whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+                  whileHover={{ borderColor: "#4b5563" }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+                 focus-within:bg-gray-700 transition duration-300"
+                >
                   <UserRound />
                   <input
                     type="text"
@@ -50,11 +74,17 @@ const Auth = () => {
                     placeholder="Username"
                     className="w-full outline-none placeholder:bg-transparent"
                   />
-                </div>
+                </motion.div>
               </>
             )}
             {/* email */}
-            <div className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md">
+            <motion.div
+              whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+              whileHover={{ borderColor: "#4b5563" }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+             focus-within:bg-gray-700 transition duration-300"
+            >
               <Mail />
               <input
                 type="email"
@@ -63,7 +93,7 @@ const Auth = () => {
                 placeholder="Your email"
                 className="w-full outline-none bg-transparent"
               />
-            </div>
+            </motion.div>
             {isAuth && (
               <div className="flexing_style1 text-sm font-semibold">
                 <div className="flex items-center gap-2">
@@ -71,7 +101,7 @@ const Auth = () => {
                   <span>Remember me</span>
                 </div>
                 <p
-                  className="cursor-pointer hover:underline text-blue-800"
+                  className="cursor-pointer hover:underline text-blue-800 transition duration-300"
                   onClick={() => setForgotPasswordOpen(true)}
                 >
                   Forgot Password?
@@ -79,7 +109,13 @@ const Auth = () => {
               </div>
             )}
             {/* password */}
-            <div className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md">
+            <motion.div
+              whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+              whileHover={{ borderColor: "#4b5563" }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+             focus-within:bg-gray-700 transition duration-300"
+            >
               <Lock />
               <input
                 type={showPassword ? "text" : "password"}
@@ -99,7 +135,7 @@ const Auth = () => {
                   onClick={() => setShowPassword(true)}
                 />
               )}
-            </div>
+            </motion.div>
             <button
               type="submit"
               className="w-full bg-linear-to-r from-pink-500 to-purple-600 p-3 rounded-md shadow-md cursor-pointer
@@ -152,7 +188,11 @@ const Auth = () => {
           </div>
         </div>
       </motion.div>
-      <ForgotPasswordModal forgotPasswordOpen={forgotPasswordOpen} onClose={()=>setForgotPasswordOpen(false)} />
+    )}
+      <ForgotPasswordModal
+        forgotPasswordOpen={forgotPasswordOpen}
+        onClose={() => setForgotPasswordOpen(false)}
+      />
     </>
   );
 };
