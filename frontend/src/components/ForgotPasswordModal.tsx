@@ -1,5 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  ForgotPasswordSchema,
+  type ForgotPasswordFormInput,
+} from "../schema/auth.schema";
+import { toast } from "react-toastify";
+import axiosInstance from "../api/api";
+
 type ForgotPasswordModalProps = {
   forgotPasswordOpen: boolean;
   onClose: () => void;
@@ -9,6 +19,27 @@ const ForgotPasswordModal = ({
   forgotPasswordOpen,
   onClose,
 }: ForgotPasswordModalProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.input<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = async (value: ForgotPasswordFormInput) => {
+    try {
+      const { data } = await axiosInstance.post("/forgot-password", value);
+      toast.success(data ? data : "Link sent to email");
+    } catch (error) {
+      toast.error("There was an error resetting the link!");
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -37,23 +68,26 @@ const ForgotPasswordModal = ({
               <h2 className="text-center text-2xl font-semibold py-4">
                 Reset Your Password
               </h2>
-              <form className="space-y-4">
-                <motion.div
-                  whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
-                  whileHover={{ borderColor: "#4b5563" }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
+              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <div className="">
+                  <motion.div
+                    whileFocus={{ scale: 1.02, borderColor: "#6b7280" }}
+                    whileHover={{ borderColor: "#4b5563" }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center gap-2 border border-gray-800 bg-gray-900 p-3 rounded-md
              focus-within:bg-gray-700 transition duration-300"
-                >
-                  <Mail />
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Your email"
-                    className="w-full outline-none bg-transparent"
-                  />
-                </motion.div>
+                  >
+                    <Mail />
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="Your email"
+                      className="w-full outline-none bg-transparent"
+                      {...register("email")}
+                    />
+                  </motion.div>
+                  {errors.email && (<span className="text-xs text-red-500">{errors.email.message}</span>)}
+                </div>
                 <button
                   type="submit"
                   className="w-full bg-linear-to-r from-pink-500 to-purple-600 p-3 rounded-md shadow-md cursor-pointer
