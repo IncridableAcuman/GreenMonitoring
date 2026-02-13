@@ -1,7 +1,9 @@
 package com.web.backend.config;
 
+import com.web.backend.exception.UnAuthorizedException;
 import com.web.backend.service.LoadUserDetailsService;
 import com.web.backend.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,18 +33,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
         String jwt = null;
         String email = null;
+
         if (header != null && header.startsWith("Bearer ")){
             jwt = header.substring(7);
-            email = jwtUtil.extractSubject(jwt);
+            try {
+                email = jwtUtil.extractSubject(jwt);
+            } catch (ExpiredJwtException e){
+                throw new UnAuthorizedException(e.getMessage());
+            }
         }
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = loadUserDetailsService.loadUserByUsername(email);
             if (jwtUtil.validateToken(jwt)){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
+                UsernamePasswordAuthenticationToken authToken =
+                         new UsernamePasswordAuthenticationToken(
+                                 userDetails,
+                                 null,
+                                 userDetails.getAuthorities()
+                         );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

@@ -1,5 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {Info, X } from "lucide-react";
+import { toast } from "react-toastify";
+import axiosInstance from "../api/api";
+import { useNavigate } from "react-router-dom";
+import { UseLoader } from "../contexts/LoaderProvider";
 
 type SignOutModalProps = {
   open: boolean;
@@ -7,6 +11,26 @@ type SignOutModalProps = {
 };
 
 const SignOutModal = ({ open, onClose }: SignOutModalProps) => {
+  const navigate = useNavigate();
+  const { startLoading,stopLoading} = UseLoader();
+
+
+  const onSubmit = async () => {
+    startLoading();
+    try {
+      const {data} = await axiosInstance.post("/auth/logout");
+      localStorage.removeItem("accessToken");
+      toast.success(data);
+      await new Promise(resolve=>setTimeout(resolve,2000));
+      navigate("/auth");
+    } catch (error) {
+      console.log(error);
+      toast.error("Sign Out failed!");
+    } finally {
+      stopLoading();
+    }
+  }
+
   return (
     <AnimatePresence>
       {open && (
@@ -32,8 +56,8 @@ const SignOutModal = ({ open, onClose }: SignOutModalProps) => {
               <p>Are you sure you want to log out?</p>
             </div>
             <div className="flex items-center gap-3 pt-4">
-              <button className="bg-gray-700 w-full text-white px-5 py-2.5 shadow-md rounded-md cursor-pointer hover:bg-gray-600 transition duration-300">Cancel</button>
-              <button onClick={onClose} className="bg-red-500 w-full text-white px-5 py-2.5 rounded-md shadow-md cursor-pointer hover:bg-red-400 transition duration-300">Yes</button>
+              <button onClick={onClose} className="bg-gray-700 w-full text-white px-5 py-2.5 shadow-md rounded-md cursor-pointer hover:bg-gray-600 transition duration-300">Cancel</button>
+              <button onClick={() => onSubmit()} className="bg-red-500 w-full text-white px-5 py-2.5 rounded-md shadow-md cursor-pointer hover:bg-red-400 transition duration-300">Yes</button>
             </div>
           </motion.div>
         </motion.div>

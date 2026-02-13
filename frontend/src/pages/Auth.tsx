@@ -4,24 +4,35 @@ import { motion } from "framer-motion";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema, type RegisterFormInputs } from "../schema/auth.schema";
+import {
+  LoginSchema,
+  RegisterSchema,
+  type LoginFormInputs,
+  type RegisterFormInputs,
+} from "../schema/auth.schema";
 import { z } from "zod";
 import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import { toast } from "react-toastify";
 import axiosInstance from "../api/api";
 import { useNavigate } from "react-router-dom";
+import { UseLoader } from "../contexts/LoaderProvider";
 const Auth = () => {
+  const { isLoading, startLoading, stopLoading } = UseLoader();
   const [isAuth, setIsAuth] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
 
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.input<typeof RegisterSchema>>({
+  const loginForm = useForm<z.input<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const registerForm = useForm<z.input<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       firstname: "",
@@ -32,17 +43,40 @@ const Auth = () => {
     },
   });
 
-  const onSubmit = async (values: RegisterFormInputs) => {
+  const onLoginSubmit = async (values: LoginFormInputs) => {
+    startLoading();
     try {
-      const { data } = await axiosInstance.post("/register", values);
+      const { data } = await axiosInstance.post("/auth/login", values);
       localStorage.setItem("accessToken", data.accessToken);
       toast.success("Successfully");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Authentication failed!");
+    } finally {
+      stopLoading();
+    }
+  };
+
+  const onRegisterSubmit = async (values: RegisterFormInputs) => {
+    try {
+      const { data } = await axiosInstance.post("/auth/register", values);
+      localStorage.setItem("accessToken", data.accessToken);
+      toast.success("Successfully");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       navigate("/");
     } catch (error) {
       console.log(error);
       toast.error("Registration failed!");
     }
   };
+
+  const registerErrors = registerForm.formState.errors;
+  const registerValues = registerForm.register;
+
+  const loginErrors = loginForm.formState.errors;
+  const loginValues = loginForm.register;
 
   return (
     <>
@@ -58,7 +92,14 @@ const Auth = () => {
               {isAuth ? "Get Started Now" : "Create account"}
             </h1>
             <p className="pb-8">Enter your credentials to login your account</p>
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="space-y-4"
+              onSubmit={
+                isAuth
+                  ? loginForm.handleSubmit(onLoginSubmit)
+                  : registerForm.handleSubmit(onRegisterSubmit)
+              }
+            >
               {/* firstname */}
               {!isAuth && (
                 <>
@@ -77,12 +118,12 @@ const Auth = () => {
                         id="firstname"
                         placeholder="Firstname"
                         className="w-full outline-none bg-transparent"
-                        {...register("firstname")}
+                        {...registerValues("firstname")}
                       />
                     </motion.div>
-                    {errors.firstname && (
+                    {registerErrors.firstname && (
                       <span className="text-xs text-red-500">
-                        {errors.firstname.message}
+                        {registerErrors.firstname.message}
                       </span>
                     )}
                   </div>
@@ -101,12 +142,12 @@ const Auth = () => {
                         id="lastname"
                         placeholder="Lastname"
                         className="w-full outline-none bg-transparent"
-                        {...register("lastname")}
+                        {...registerValues("lastname")}
                       />
                     </motion.div>
-                    {errors.lastname && (
+                    {registerErrors.lastname && (
                       <span className="text-xs text-red-500">
-                        {errors.lastname.message}
+                        {registerErrors.lastname.message}
                       </span>
                     )}
                   </div>
@@ -125,12 +166,12 @@ const Auth = () => {
                         id="username"
                         placeholder="Username"
                         className="w-full outline-none placeholder:bg-transparent"
-                        {...register("username")}
+                        {...registerValues("username")}
                       />
                     </motion.div>
-                    {errors.username && (
+                    {registerErrors.username && (
                       <span className="text-xs text-red-500">
-                        {errors.username.message}
+                        {registerErrors.username.message}
                       </span>
                     )}
                   </div>
@@ -151,12 +192,16 @@ const Auth = () => {
                     id="email"
                     placeholder="Your email"
                     className="w-full outline-none bg-transparent"
-                    {...register("email")}
+                    {...(isAuth
+                      ? loginValues("email")
+                      : registerValues("email"))}
                   />
                 </motion.div>
-                {errors.email && (
+                {(isAuth ? loginErrors.email : registerErrors.email) && (
                   <span className="text-xs text-red-500">
-                    {errors.email.message}
+                    {isAuth
+                      ? loginErrors.email?.message
+                      : registerErrors.email?.message}
                   </span>
                 )}
               </div>
@@ -189,7 +234,9 @@ const Auth = () => {
                     id="password"
                     placeholder="Your password"
                     className="w-full outline-none bg-transparent"
-                    {...register("password")}
+                    {...(isAuth
+                      ? loginValues("password")
+                      : registerValues("password"))}
                   />
                   {showPassword ? (
                     <Eye
@@ -203,14 +250,20 @@ const Auth = () => {
                     />
                   )}
                 </motion.div>
-                {errors.password && (<span className="text-xs text-red-500">{errors.password.message}</span>)}
+                {(isAuth ? loginErrors.password : registerErrors.password) && (
+                  <span className="text-xs text-red-500">
+                    {isAuth
+                      ? loginErrors.password?.message
+                      : registerErrors.password?.message}
+                  </span>
+                )}
               </div>
               <button
                 type="submit"
                 className="w-full bg-linear-to-r from-pink-500 to-purple-600 p-3 rounded-md shadow-md cursor-pointer
            hover:bg-linear-to-r hover:from-purple-600 hover:to-pink-500 transition duration-300"
               >
-                {isAuth ? "Sign In" : "Sign Up"}
+                {isLoading ? "Loading..." : isAuth ? "Sign In" : "Sign Up"}
               </button>
             </form>
             <div className="space-y-4 pt-2">

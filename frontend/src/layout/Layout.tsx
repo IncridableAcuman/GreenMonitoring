@@ -9,7 +9,7 @@ const Layout = () => {
              h-screen shrink-0`}>
             <Sidebar/>
         </aside>
-        <main className='flex-1 overflow-y-auto h-screen'>
+        <main className='flex-1 overflow-y-auto h-screen text-white'>
             <Navbar/>
             <Outlet/>
         </main>
