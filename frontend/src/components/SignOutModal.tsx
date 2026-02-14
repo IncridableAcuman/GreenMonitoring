@@ -45,6 +45,7 @@ const SignOutModal = ({ open, onClose }: SignOutModalProps) => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.8 }}
+            onClick={e=>e.stopPropagation()}
             className={`bg-gray-800 w-full max-w-md shadow-md rounded-md relative p-6`}
           >
             <button className="absolute top-3 right-3 p-1 cursor-pointer text-gray-500 hover:text-gray-300 transition duration-300">
